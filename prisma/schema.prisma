@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    String @id @default(cuid())
+  email String @unique
+  name  String?
+
+  // Many-to-many relationship for user's interested categories
+  interestedCategories Category[]
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  title   String
+  summary String
+  urls    String[]
+
+  // Relation to the category it belongs to
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  // Many-to-many relationship to the sources it came from
+  sources Source[]
+}
+
+model Category {
+  id   String @id @default(cuid())
+  name String @unique
+
+  // Relation to posts in this category
+  posts Post[]
+
+  // Relation to sources for this category
+  sources Source[]
+
+  // Many-to-many relationship back to users
+  interestedUsers User[]
+}
+
+model Source {
+  id   String @id @default(cuid())
+  name String
+  url  String @unique
+
+  // Relation to the category it belongs to
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  // Many-to-many relationship back to posts
+  posts Post[]
+}
