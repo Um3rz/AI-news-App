@@ -1,7 +1,6 @@
 import { Agent, run, webSearchTool } from '@openai/agents';
 import { Source, Category } from '@prisma/client';
 
-// This type is still useful for passing around source objects
 type SourceWithCategory = Source & { category: Category };
 
 /**
