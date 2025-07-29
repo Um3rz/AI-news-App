@@ -28,7 +28,7 @@ IMPORTANT: Respond ONLY with a valid JSON object. Do not use markdown formatting
   const agent = new Agent({
     name: `${categoryName} News Agent`,
     tools: [webSearchTool()],
-    model: 'gpt-4.1-nano',
+    model: 'gpt-4.1-mini',
     instructions: systemPrompt,
   });
 
